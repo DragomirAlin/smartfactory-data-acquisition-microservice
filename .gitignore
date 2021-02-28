@@ -137,6 +137,5 @@ buildNumber.properties
 !.vscode/extensions.json
 *.code-workspace
 
-src/main/resources/application-dev.yml
 
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij+all,maven,vscode
