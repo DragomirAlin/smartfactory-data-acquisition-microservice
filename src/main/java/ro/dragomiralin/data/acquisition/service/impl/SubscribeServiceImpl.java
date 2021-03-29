@@ -1,32 +1,40 @@
 package ro.dragomiralin.data.acquisition.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.stereotype.Service;
 import ro.dragomiralin.data.acquisition.configuration.MQTT;
-import ro.dragomiralin.data.acquisition.model.SubscribeDTO;
+import ro.dragomiralin.data.acquisition.service.SubscribeService;
+import ro.dragomiralin.data.acquisition.service.exception.HttpError;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
-public class SubscribeServiceImpl {
-    private String payload;
+public class SubscribeServiceImpl implements SubscribeService {
 
-    public void subscribeChannel(String topicName) throws MqttException {
-        MQTT.getClient().subscribeWithResponse(topicName, (s, mqttMessage) -> {
-            SubscribeDTO mqttSubscribeModel = new SubscribeDTO();
-            mqttSubscribeModel.setMessage(new String(mqttMessage.getPayload()));
-            this.payload = mqttSubscribeModel.getMessage();
-            log.info("Message from MQTT: " +mqttSubscribeModel.getMessage() + ", topic: " + topicName);
-        });
+    public String subscribeWithResponse(String topic) {
+        try {
+            AtomicReference<String> message = null;
+            MQTT.getClient().subscribeWithResponse(topic, (s, mqttMessage) -> {
+                message.set(String.valueOf(mqttMessage.getPayload()));
+
+                log.info("Message from MQTT: " + message + ", topic: " + topic);
+            });
+            return message.get();
+        } catch (Exception e) {
+            log.error("An error occurred while subscribing to {}.", topic, e);
+            throw HttpError.badRequest(e.getMessage());
+        }
     }
 
-    public String getPayload(){
-        return this.payload;
-    }
-
-    public void unsubscribeChannel(String topicName) throws MqttException {
-        MQTT.getClient().subscribeWithResponse(topicName);
-        log.info("Unsubscibe to: " + topicName);
+    public void unsubscribe(String topic) {
+        try {
+            MQTT.getClient().subscribeWithResponse(topic);
+            log.info("Unsubscibe to: " + topic);
+        } catch (Exception e) {
+            log.error("An error occurred while unsubscribing to {}", topic, e);
+            throw HttpError.badRequest(e.getMessage());
+        }
     }
 
 }

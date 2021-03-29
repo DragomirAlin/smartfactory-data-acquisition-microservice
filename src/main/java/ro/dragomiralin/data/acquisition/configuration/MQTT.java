@@ -15,9 +15,9 @@ import java.util.Objects;
 @Component
 public class MQTT {
     @Value("${mqtt.publisher-id}")
-    private static String MQTT_PUBLISHER_ID;
+    private static String mqttPublisherId;
     @Value("${mqtt.server}")
-    private static String MQTT_SERVER_ADDRESS;
+    private static String mqttServerAddress;
     private static IMqttClient instance;
 
     private MQTT() {
@@ -26,7 +26,7 @@ public class MQTT {
     public static IMqttClient getClient() {
         try {
             if (Objects.isNull(instance)) {
-                instance = new MqttClient(MQTT_SERVER_ADDRESS, MQTT_PUBLISHER_ID);
+                instance = new MqttClient(mqttServerAddress, mqttPublisherId);
             }
 
             if (!instance.isConnected()) {

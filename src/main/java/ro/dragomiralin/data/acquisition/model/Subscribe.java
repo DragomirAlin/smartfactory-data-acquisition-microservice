@@ -9,8 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class SubscribeDTO {
-
+public class Subscribe {
     private String message;
     private Integer qos;
     private Integer id;
