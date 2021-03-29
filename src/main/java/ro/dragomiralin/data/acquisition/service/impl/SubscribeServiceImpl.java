@@ -1,5 +1,6 @@
 package ro.dragomiralin.data.acquisition.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ro.dragomiralin.data.acquisition.configuration.MQTT;
@@ -10,12 +11,14 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class SubscribeServiceImpl implements SubscribeService {
+    private final MQTT mqtt;
 
     public String subscribeWithResponse(String topic) {
         try {
             AtomicReference<String> message = null;
-            MQTT.getClient().subscribeWithResponse(topic, (s, mqttMessage) -> {
+            mqtt.getClient().subscribeWithResponse(topic, (s, mqttMessage) -> {
                 message.set(String.valueOf(mqttMessage.getPayload()));
 
                 log.info("Message from MQTT: " + message + ", topic: " + topic);
@@ -29,7 +32,7 @@ public class SubscribeServiceImpl implements SubscribeService {
 
     public void unsubscribe(String topic) {
         try {
-            MQTT.getClient().subscribeWithResponse(topic);
+            mqtt.getClient().subscribeWithResponse(topic);
             log.info("Unsubscibe to: " + topic);
         } catch (Exception e) {
             log.error("An error occurred while unsubscribing to {}", topic, e);

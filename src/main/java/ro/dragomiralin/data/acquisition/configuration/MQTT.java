@@ -8,22 +8,22 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Objects;
 
 @Slf4j
-@Component
+@Service
 public class MQTT {
     @Value("${mqtt.publisher-id}")
-    private static String mqttPublisherId;
+    private String mqttPublisherId;
     @Value("${mqtt.server}")
-    private static String mqttServerAddress;
+    private String mqttServerAddress;
+
     private static IMqttClient instance;
 
-    private MQTT() {
-    }
-
-    public static IMqttClient getClient() {
+    public IMqttClient getClient() {
         try {
             if (Objects.isNull(instance)) {
                 instance = new MqttClient(mqttServerAddress, mqttPublisherId);
@@ -38,7 +38,7 @@ public class MQTT {
         return instance;
     }
 
-    private static MqttConnectOptions getOption() {
+    private MqttConnectOptions getOption() {
         MqttConnectOptions options = new MqttConnectOptions();
         options.setAutomaticReconnect(true);
         options.setCleanSession(true);

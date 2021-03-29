@@ -7,6 +7,11 @@ spring:
         jwt:
           issuerUri: http://192.168.1.5:8083/auth/realms/baeldung
           jwkSetUri: http://192.168.1.5:8083/auth/realms/baeldung/protocol/openid-connect/certs
+  data:
+    mongodb:
+      database: smartfactory
+      host: 192.168.1.5
+      port: 27017
 server:
   port: 8002
 eureka:
@@ -15,3 +20,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://discUser:discPassword@192.168.1.5:8761/eureka
+mqtt:
+  publisher-id: spring-server
+  server: tcp://192.168.1.5:1883
