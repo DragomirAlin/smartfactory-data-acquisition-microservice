@@ -7,10 +7,8 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.Objects;
 
 @Slf4j
@@ -20,8 +18,7 @@ public class MQTT {
     private String mqttPublisherId;
     @Value("${mqtt.server}")
     private String mqttServerAddress;
-
-    private static IMqttClient instance;
+    private IMqttClient instance;
 
     public IMqttClient getClient() {
         try {

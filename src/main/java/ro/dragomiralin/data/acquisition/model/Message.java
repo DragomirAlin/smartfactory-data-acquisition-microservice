@@ -16,8 +16,6 @@ public class Message {
     private String topic;
     @NotNull
     private String message;
-    @NotNull
     private Boolean retained;
-    @NotNull
     private Integer qos;
 }
