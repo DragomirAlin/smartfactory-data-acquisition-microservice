@@ -11,8 +11,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class PublishDTO {
-
+public class Message {
     @NotNull
     private String topic;
     @NotNull

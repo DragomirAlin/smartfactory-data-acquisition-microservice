@@ -8,7 +8,7 @@ import ro.dragomiralin.data.acquisition.model.SubscribeDTO;
 
 @Slf4j
 @Service
-public class SubscribeService {
+public class SubscribeServiceImpl {
     private String payload;
 
     public void subscribeChannel(String topicName) throws MqttException {
