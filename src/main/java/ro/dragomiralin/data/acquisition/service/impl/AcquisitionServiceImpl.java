@@ -28,7 +28,7 @@ public class AcquisitionServiceImpl implements AcquisitionService {
                     .payload(payload)
                     .build());
         } catch (Exception e) {
-            log.error("inser error  {}", e.getMessage());
+            log.error("An error occurred while inserting data from broker.", e);
         }
     }
 

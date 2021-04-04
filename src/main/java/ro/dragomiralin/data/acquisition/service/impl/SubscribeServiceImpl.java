@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 public class SubscribeServiceImpl implements SubscribeService {
     private final SubscriptionService subscriptionService;
     private final AcquisitionService acquisitionService;
+    private static final String NUMBER_SIGN = "#";
     private final MQTT mqtt;
 
     @PostConstruct
@@ -45,6 +46,10 @@ public class SubscribeServiceImpl implements SubscribeService {
 
     @Override
     public void subscribe(String userId, String topic) {
+        if (topic.contains(NUMBER_SIGN)) {
+            throw HttpError.badRequest(String.format("It is not possible to subscribe to %s topic.", NUMBER_SIGN));
+        }
+
         Subscription subscription = subscriptionService.create(Subscription.builder()
                 .topic(topic)
                 .userId(userId)
