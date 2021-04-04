@@ -19,7 +19,6 @@ public class AcquisitionController {
 
     @GetMapping
     public String test(@AuthenticationPrincipal Jwt principal) {
-        subscribeService.subscribe();
         return String.format("Endpoint Test from mqtt-microservice. User=%s", principal.getClaimAsString("preferred_username"));
     }
 
@@ -30,11 +29,13 @@ public class AcquisitionController {
 
     @DeleteMapping("/unsubscrine/{topic}")
     public void unsubscribe(@AuthenticationPrincipal Jwt principal, @PathVariable String topic) {
-        subscribeService.unsubscribe(topic);
+        String userId = principal.getClaimAsString("preferred_username");
+        subscribeService.unsubscribe(userId, topic);
     }
 
     @PostMapping("/subscribe/{topic}")
-    public String subscribe(@AuthenticationPrincipal Jwt principal, @PathVariable String topic) {
-        return subscribeService.subscribeWithResponse(topic);
+    public void subscribe(@AuthenticationPrincipal Jwt principal, @PathVariable String topic) {
+        String userId = principal.getClaimAsString("preferred_username");
+        subscribeService.subscribe(userId, topic);
     }
 }

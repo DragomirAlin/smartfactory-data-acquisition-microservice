@@ -1,0 +1,9 @@
+package ro.dragomiralin.data.acquisition.repository;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+import ro.dragomiralin.data.acquisition.model.Data;
+
+@Repository
+public interface DataRepository extends MongoRepository<Data, String> {
+}

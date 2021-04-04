@@ -14,7 +14,22 @@ import ro.dragomiralin.data.acquisition.service.exception.HttpError;
 public class SubscribeServiceImpl implements SubscribeService {
     private final MQTT mqtt;
 
-    public String subscribeWithResponse(String topic) {
+    public void unsubscribe(String userId, String topic) {
+        try {
+            mqtt.getClient().subscribeWithResponse(topic);
+            log.info("Unsubscibe to: " + topic);
+        } catch (Exception e) {
+            log.error("An error occurred while unsubscribing to {}", topic, e);
+            throw HttpError.badRequest(e.getMessage());
+        }
+    }
+
+    @Override
+    public void subscribe(String sub, String topic) {
+
+    }
+
+    private String subscribeWithResponse(String topic) {
         try {
             mqtt.getClient().subscribeWithResponse(topic, (s, mqttMessage) -> {
                 String message = new String(mqttMessage.getPayload());
@@ -27,31 +42,5 @@ public class SubscribeServiceImpl implements SubscribeService {
         }
         return "Success";
     }
-
-    public void unsubscribe(String topic) {
-        try {
-            mqtt.getClient().subscribeWithResponse(topic);
-            log.info("Unsubscibe to: " + topic);
-        } catch (Exception e) {
-            log.error("An error occurred while unsubscribing to {}", topic, e);
-            throw HttpError.badRequest(e.getMessage());
-        }
-    }
-
-    @Override
-    public void subscribe() {
-
-    }
-
-//    public void subscribe() {
-//        try {
-//            IMqttToken token = mqtt.getClient().subscribeWithResponse("test");
-//            System.out.println(token.setActionCallback(s -> {
-//
-//            }););
-//        } catch (Exception e) {
-//
-//        }
-//    }
 
 }
