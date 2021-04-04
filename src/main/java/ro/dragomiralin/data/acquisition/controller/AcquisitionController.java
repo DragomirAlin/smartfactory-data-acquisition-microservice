@@ -34,7 +34,7 @@ public class AcquisitionController {
 
     @PostMapping("/subscribe")
     public void subscribe(@AuthenticationPrincipal Jwt principal, @RequestParam String topic) {
-        String userId = principal.getClaimAsString("preferred_username");
+        String userId = principal.getClaimAsString("sub");
         subscribeService.subscribe(userId, topic);
     }
 }

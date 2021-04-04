@@ -37,7 +37,7 @@ public class SubscribeServiceImpl implements SubscribeService {
         subscriptionService.deleteByTopic(topic);
         try {
             mqtt.getClient().subscribeWithResponse(topic);
-            log.info("Unsubscibe to: " + topic);
+            log.info("Unsubscribe to: " + topic);
         } catch (Exception e) {
             log.error("An error occurred while unsubscribing to {}", topic, e);
             throw HttpError.badRequest(e.getMessage());
@@ -60,7 +60,8 @@ public class SubscribeServiceImpl implements SubscribeService {
 
     private void subscribeWithResponse(Subscription subscription) {
         try {
-            mqtt.getClient().subscribeWithResponse(subscription.getTopic(), (s, mqttMessage) -> acquisitionService.insert(subscription.getTopic(), mqttMessage));
+            mqtt.getClient().subscribeWithResponse(subscription.getTopic(), (s, mqttMessage)
+                    -> acquisitionService.insert(subscription.getTopic(), mqttMessage));
         } catch (Exception e) {
             log.error("An error occurred while subscribing to {}.", subscription.getTopic(), e);
             throw HttpError.badRequest(e.getMessage());
