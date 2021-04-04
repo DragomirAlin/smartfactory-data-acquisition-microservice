@@ -27,13 +27,13 @@ public class AcquisitionController {
         publishService.publish(message);
     }
 
-    @DeleteMapping("/unsubscribe/{topic}")
-    public void unsubscribe(@AuthenticationPrincipal Jwt principal, @PathVariable String topic) {
+    @DeleteMapping("/unsubscribe")
+    public void unsubscribe(@AuthenticationPrincipal Jwt principal, @RequestParam String topic) {
         subscribeService.unsubscribe(topic);
     }
 
-    @PostMapping("/subscribe/{topic}")
-    public void subscribe(@AuthenticationPrincipal Jwt principal, @PathVariable String topic) {
+    @PostMapping("/subscribe")
+    public void subscribe(@AuthenticationPrincipal Jwt principal, @RequestParam String topic) {
         String userId = principal.getClaimAsString("preferred_username");
         subscribeService.subscribe(userId, topic);
     }

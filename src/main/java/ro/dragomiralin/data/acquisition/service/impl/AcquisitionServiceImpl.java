@@ -1,5 +1,6 @@
 package ro.dragomiralin.data.acquisition.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -8,6 +9,7 @@ import ro.dragomiralin.data.acquisition.model.Data;
 import ro.dragomiralin.data.acquisition.repository.DataRepository;
 import ro.dragomiralin.data.acquisition.service.AcquisitionService;
 
+import java.io.*;
 import java.util.List;
 
 @Slf4j
@@ -15,14 +17,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AcquisitionServiceImpl implements AcquisitionService {
     private final DataRepository dataRepository;
+    private final ObjectMapper objectMapper;
 
     @Override
     public void insert(String topic, MqttMessage message) {
-        String payload = new String(message.getPayload());
-        dataRepository.insert(Data.builder()
-                .topic(topic)
-                .payload(payload)
-                .build());
+        try {
+            Object payload = objectMapper.readValue(message.getPayload(), Object.class);
+            dataRepository.insert(Data.builder()
+                    .topic(topic)
+                    .payload(payload)
+                    .build());
+        } catch (Exception e) {
+            log.error("inser error  {}", e.getMessage());
+        }
     }
 
     @Override
