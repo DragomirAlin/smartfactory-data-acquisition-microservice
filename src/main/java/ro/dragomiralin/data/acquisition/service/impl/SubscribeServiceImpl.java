@@ -7,7 +7,6 @@ import ro.dragomiralin.data.acquisition.configuration.MQTT;
 import ro.dragomiralin.data.acquisition.service.SubscribeService;
 import ro.dragomiralin.data.acquisition.service.exception.HttpError;
 
-import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
@@ -17,17 +16,16 @@ public class SubscribeServiceImpl implements SubscribeService {
 
     public String subscribeWithResponse(String topic) {
         try {
-            AtomicReference<String> message = null;
             mqtt.getClient().subscribeWithResponse(topic, (s, mqttMessage) -> {
-                message.set(String.valueOf(mqttMessage.getPayload()));
+                String message = new String(mqttMessage.getPayload());
+                log.info("Message from MQTT: " + message + ", topic: " + topic); // Listener
 
-                log.info("Message from MQTT: " + message + ", topic: " + topic);
             });
-            return message.get();
         } catch (Exception e) {
             log.error("An error occurred while subscribing to {}.", topic, e);
             throw HttpError.badRequest(e.getMessage());
         }
+        return "Success";
     }
 
     public void unsubscribe(String topic) {
@@ -39,5 +37,21 @@ public class SubscribeServiceImpl implements SubscribeService {
             throw HttpError.badRequest(e.getMessage());
         }
     }
+
+    @Override
+    public void subscribe() {
+
+    }
+
+//    public void subscribe() {
+//        try {
+//            IMqttToken token = mqtt.getClient().subscribeWithResponse("test");
+//            System.out.println(token.setActionCallback(s -> {
+//
+//            }););
+//        } catch (Exception e) {
+//
+//        }
+//    }
 
 }

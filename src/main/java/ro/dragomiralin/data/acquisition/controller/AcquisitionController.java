@@ -19,6 +19,7 @@ public class AcquisitionController {
 
     @GetMapping
     public String test(@AuthenticationPrincipal Jwt principal) {
+        subscribeService.subscribe();
         return String.format("Endpoint Test from mqtt-microservice. User=%s", principal.getClaimAsString("preferred_username"));
     }
 
