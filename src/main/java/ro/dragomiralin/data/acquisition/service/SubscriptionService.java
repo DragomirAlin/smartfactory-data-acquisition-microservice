@@ -12,4 +12,6 @@ public interface SubscriptionService {
     List<Subscription> list();
 
     Subscription getById(String id);
+
+    void deleteByTopic(String topic);
 }

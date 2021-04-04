@@ -33,7 +33,8 @@ public class SubscribeServiceImpl implements SubscribeService {
         });
     }
 
-    public void unsubscribe(String userId, String topic) {
+    public void unsubscribe(String topic) {
+        subscriptionService.deleteByTopic(topic);
         try {
             mqtt.getClient().subscribeWithResponse(topic);
             log.info("Unsubscibe to: " + topic);

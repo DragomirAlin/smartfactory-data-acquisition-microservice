@@ -8,6 +8,8 @@ import ro.dragomiralin.data.acquisition.model.Data;
 import ro.dragomiralin.data.acquisition.repository.DataRepository;
 import ro.dragomiralin.data.acquisition.service.AcquisitionService;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -21,5 +23,15 @@ public class AcquisitionServiceImpl implements AcquisitionService {
                 .topic(topic)
                 .payload(payload)
                 .build());
+    }
+
+    @Override
+    public List<Data> getDataByTopic(String topic) {
+        return dataRepository.findAllByTopic(topic);
+    }
+
+    @Override
+    public List<Data> getAll() {
+        return dataRepository.findAll();
     }
 }

@@ -4,6 +4,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 import ro.dragomiralin.data.acquisition.model.Data;
 
+import java.util.List;
+
 @Repository
 public interface DataRepository extends MongoRepository<Data, String> {
+    List<Data> findAllByTopic(String topic);
 }

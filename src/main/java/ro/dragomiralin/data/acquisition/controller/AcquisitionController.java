@@ -27,10 +27,9 @@ public class AcquisitionController {
         publishService.publish(message);
     }
 
-    @DeleteMapping("/unsubscrine/{topic}")
+    @DeleteMapping("/unsubscribe/{topic}")
     public void unsubscribe(@AuthenticationPrincipal Jwt principal, @PathVariable String topic) {
-        String userId = principal.getClaimAsString("preferred_username");
-        subscribeService.unsubscribe(userId, topic);
+        subscribeService.unsubscribe(topic);
     }
 
     @PostMapping("/subscribe/{topic}")

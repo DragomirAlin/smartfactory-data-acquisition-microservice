@@ -42,4 +42,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         return subscriptionRepository.findById(id)
                 .orElseThrow(() -> HttpError.notFound(String.format("Subscription with id = %s was not found.", id)));
     }
+
+    @Override
+    public void deleteByTopic(String topic) {
+        subscriptionRepository.findByTopic(topic)
+                .ifPresent(subscriptionRepository::delete);
+    }
 }
