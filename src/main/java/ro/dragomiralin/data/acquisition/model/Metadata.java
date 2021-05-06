@@ -8,6 +8,7 @@ import java.util.Date;
 @Data
 @Builder
 public  class Metadata {
+    private String macAddress;
     private DeviceType device;
     private String location;
     private Date timestamp;

@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class Payload {
-    private String macAddress;
     private Object payload;
     private Metadata metadata;
 }
