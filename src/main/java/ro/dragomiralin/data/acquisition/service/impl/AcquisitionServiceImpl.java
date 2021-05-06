@@ -9,9 +9,7 @@ import ro.dragomiralin.data.acquisition.model.Data;
 import ro.dragomiralin.data.acquisition.repository.DataRepository;
 import ro.dragomiralin.data.acquisition.service.AcquisitionService;
 import ro.dragomiralin.data.acquisition.service.SenderService;
-import ro.dragomiralin.data.acquisition.service.rabbitmq.model.SubscriptionDTO;
 
-import java.io.*;
 import java.util.List;
 
 @Slf4j

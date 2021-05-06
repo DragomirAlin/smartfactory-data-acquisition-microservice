@@ -7,9 +7,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import ro.dragomiralin.data.acquisition.model.Message;
 import ro.dragomiralin.data.acquisition.service.PublishService;
-import ro.dragomiralin.data.acquisition.service.SenderService;
 import ro.dragomiralin.data.acquisition.service.SubscribeService;
-import ro.dragomiralin.data.acquisition.service.rabbitmq.model.SubscriptionDTO;
 
 @Slf4j
 @RestController
