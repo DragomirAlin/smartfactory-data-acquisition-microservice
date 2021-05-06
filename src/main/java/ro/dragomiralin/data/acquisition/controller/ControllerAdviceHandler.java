@@ -22,6 +22,4 @@ public class ControllerAdviceHandler {
         log.error("Error: status={}, message={},", e.getStatus().toString(), e.getMessage(), e);
         return ResponseEntity.status(e.getStatus()).body(ErrorResponse.builder().message(e.getMessage()).build());
     }
-
-
 }
