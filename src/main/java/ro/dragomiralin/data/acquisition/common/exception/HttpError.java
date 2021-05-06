@@ -1,6 +1,7 @@
-package ro.dragomiralin.data.acquisition.service.exception;
+package ro.dragomiralin.data.acquisition.common.exception;
 
 import lombok.*;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 @Builder

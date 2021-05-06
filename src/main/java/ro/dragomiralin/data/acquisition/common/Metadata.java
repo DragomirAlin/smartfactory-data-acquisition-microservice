@@ -2,8 +2,6 @@ package ro.dragomiralin.data.acquisition.common;
 
 import lombok.Builder;
 import lombok.Data;
-import ro.dragomiralin.data.acquisition.common.DeviceType;
-
 import java.util.Date;
 
 @Data
@@ -15,4 +13,5 @@ public  class Metadata {
     private Date timestamp;
     private String maintainer;
     private String lastMaintain;
+    private String acquisitionType;
 }

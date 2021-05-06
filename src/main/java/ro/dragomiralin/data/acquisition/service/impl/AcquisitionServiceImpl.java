@@ -38,11 +38,13 @@ public class AcquisitionServiceImpl implements AcquisitionService {
 
     @Override
     public List<Data> getDataByTopic(String topic) {
+        log.info("Get all data by topic={}.", topic);
         return dataRepository.findAllByTopic(topic);
     }
 
     @Override
     public List<Data> getAll() {
+        log.info("Get all data from database.");
         return dataRepository.findAll();
     }
 }

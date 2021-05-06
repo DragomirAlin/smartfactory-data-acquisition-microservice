@@ -8,7 +8,7 @@ import ro.dragomiralin.data.acquisition.model.Subscription;
 import ro.dragomiralin.data.acquisition.service.AcquisitionService;
 import ro.dragomiralin.data.acquisition.service.SubscribeService;
 import ro.dragomiralin.data.acquisition.service.SubscriptionService;
-import ro.dragomiralin.data.acquisition.service.exception.HttpError;
+import ro.dragomiralin.data.acquisition.common.exception.HttpError;
 
 import javax.annotation.PostConstruct;
 
@@ -28,7 +28,7 @@ public class SubscribeServiceImpl implements SubscribeService {
             try {
                 this.subscribeWithResponse(subscription);
             } catch (Exception e) {
-                log.error("Subscribe failed: {}", e.getMessage());
+                log.error("Subscribe failed, topic: {}", subscription.getTopic(), e);
             }
         });
     }
@@ -40,7 +40,7 @@ public class SubscribeServiceImpl implements SubscribeService {
             log.info("Unsubscribe to: " + topic);
         } catch (Exception e) {
             log.error("An error occurred while unsubscribing to {}", topic, e);
-            throw HttpError.badRequest(e.getMessage());
+            throw HttpError.badRequest(String.format("Unsubscribe failed, topic %s.", topic));
         }
     }
 
@@ -56,6 +56,7 @@ public class SubscribeServiceImpl implements SubscribeService {
                 .build());
 
         this.subscribeWithResponse(subscription);
+        log.info("Subscribed with success to {} topic.", topic);
     }
 
     private void subscribeWithResponse(Subscription subscription) {
@@ -64,7 +65,7 @@ public class SubscribeServiceImpl implements SubscribeService {
                     -> acquisitionService.insert(subscription.getTopic(), mqttMessage));
         } catch (Exception e) {
             log.error("An error occurred while subscribing to {}.", subscription.getTopic(), e);
-            throw HttpError.badRequest(e.getMessage());
+            throw HttpError.badRequest(String.format("Subscribe failed, details=%s", e.getMessage()));
         }
     }
 

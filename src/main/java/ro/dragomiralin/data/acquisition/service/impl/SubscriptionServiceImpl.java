@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import ro.dragomiralin.data.acquisition.model.Subscription;
 import ro.dragomiralin.data.acquisition.repository.SubscriptionRepository;
 import ro.dragomiralin.data.acquisition.service.SubscriptionService;
-import ro.dragomiralin.data.acquisition.service.exception.HttpError;
+import ro.dragomiralin.data.acquisition.common.exception.HttpError;
 
 import java.util.List;
 import java.util.Optional;
