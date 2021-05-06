@@ -20,6 +20,16 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://discUser:discPassword@192.168.1.5:8761/eureka
+  rabbitmq:
+    host: 192.168.1.5
+    port: 5672
+    username: admin
+    password: admin
 mqtt:
   publisher-id: spring-server
   server: tcp://192.168.1.5:1883
+smartfactory:
+  rabbitmq:
+    exchange: exchange.mqtt
+    queue: queue.mqtt
+    routingkey: routingkey.mqtt
