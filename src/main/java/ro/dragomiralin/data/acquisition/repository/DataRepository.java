@@ -2,7 +2,7 @@ package ro.dragomiralin.data.acquisition.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-import ro.dragomiralin.data.acquisition.model.Data;
+import ro.dragomiralin.data.acquisition.common.Data;
 
 import java.util.List;
 

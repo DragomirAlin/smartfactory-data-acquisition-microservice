@@ -1,7 +1,8 @@
-package ro.dragomiralin.data.acquisition.model;
+package ro.dragomiralin.data.acquisition.common;
 
 import lombok.Builder;
 import lombok.Data;
+import ro.dragomiralin.data.acquisition.common.DeviceType;
 
 import java.util.Date;
 

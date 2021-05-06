@@ -1,4 +1,4 @@
-package ro.dragomiralin.data.acquisition.model.sensors;
+package ro.dragomiralin.data.acquisition.common.sensors;
 
 import lombok.Builder;
 import lombok.Data;

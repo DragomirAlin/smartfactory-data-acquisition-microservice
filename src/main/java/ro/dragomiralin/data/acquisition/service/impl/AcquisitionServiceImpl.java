@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.stereotype.Service;
-import ro.dragomiralin.data.acquisition.model.Data;
+import ro.dragomiralin.data.acquisition.common.Data;
 import ro.dragomiralin.data.acquisition.model.Payload;
 import ro.dragomiralin.data.acquisition.repository.DataRepository;
 import ro.dragomiralin.data.acquisition.service.AcquisitionService;

@@ -1,7 +1,7 @@
 package ro.dragomiralin.data.acquisition.service;
 
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import ro.dragomiralin.data.acquisition.model.Data;
+import ro.dragomiralin.data.acquisition.common.Data;
 
 import java.util.List;
 

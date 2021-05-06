@@ -1,4 +1,4 @@
-package ro.dragomiralin.data.acquisition.model;
+package ro.dragomiralin.data.acquisition.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
