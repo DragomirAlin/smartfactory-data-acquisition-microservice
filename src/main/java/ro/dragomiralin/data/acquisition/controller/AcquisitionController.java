@@ -7,7 +7,9 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import ro.dragomiralin.data.acquisition.model.Message;
 import ro.dragomiralin.data.acquisition.service.PublishService;
+import ro.dragomiralin.data.acquisition.service.SenderService;
 import ro.dragomiralin.data.acquisition.service.SubscribeService;
+import ro.dragomiralin.data.acquisition.service.rabbitmq.model.SubscriptionDTO;
 
 @Slf4j
 @RestController
@@ -16,9 +18,11 @@ import ro.dragomiralin.data.acquisition.service.SubscribeService;
 public class AcquisitionController {
     private final PublishService publishService;
     private final SubscribeService subscribeService;
+    private final SenderService senderService;
 
     @GetMapping
     public String test(@AuthenticationPrincipal Jwt principal) {
+        senderService.send(SubscriptionDTO.builder().id("1").build());
         return String.format("Endpoint Test from mqtt-microservice. User=%s", principal.getClaimAsString("preferred_username"));
     }
 
