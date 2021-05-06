@@ -17,4 +17,5 @@ public class Data {
     private Object payload;
     @CreatedDate
     private Date arriveAt;
+    private Metadata metadata;
 }

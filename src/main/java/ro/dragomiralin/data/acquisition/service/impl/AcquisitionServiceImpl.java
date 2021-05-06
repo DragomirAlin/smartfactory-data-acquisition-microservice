@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.stereotype.Service;
 import ro.dragomiralin.data.acquisition.model.Data;
+import ro.dragomiralin.data.acquisition.model.Payload;
 import ro.dragomiralin.data.acquisition.repository.DataRepository;
 import ro.dragomiralin.data.acquisition.service.AcquisitionService;
 import ro.dragomiralin.data.acquisition.service.SenderService;
@@ -23,10 +24,11 @@ public class AcquisitionServiceImpl implements AcquisitionService {
     @Override
     public void insert(String topic, MqttMessage message) {
         try {
-            Object payload = objectMapper.readValue(message.getPayload(), Object.class);
+            Payload payload = objectMapper.readValue(message.getPayload(), Payload.class);
             Data data = dataRepository.save(Data.builder()
                     .topic(topic)
-                    .payload(payload)
+                    .payload(payload.getPayload())
+                    .metadata(payload.getMetadata())
                     .build());
             senderService.send(data);
         } catch (Exception e) {
