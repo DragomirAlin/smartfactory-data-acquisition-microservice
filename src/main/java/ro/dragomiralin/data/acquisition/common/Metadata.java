@@ -14,7 +14,7 @@ public class Metadata {
     private Date timestamp;
     private String maintainer;
     private String lastMaintain;
-    private Acqusition acquisition;
+    private Acqusition acquisitionDevice;
 
     public enum Acqusition {
         DTH22, MQ2
