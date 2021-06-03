@@ -16,7 +16,7 @@ public class PublishServiceImpl implements PublishService {
 
     public void publish(Message message) {
         try {
-            MqttMessage mqttMessage = new MqttMessage(message.getMessage().getBytes());
+            var mqttMessage = new MqttMessage(message.getMessage().getBytes());
             mqttMessage.setQos(message.getQos());
             mqttMessage.setRetained(message.getRetained());
             mqtt.getClient().publish(message.getTopic(), mqttMessage);

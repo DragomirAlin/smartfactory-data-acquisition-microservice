@@ -20,6 +20,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public Subscription create(Subscription subscription) {
         Optional<Subscription> optionalSubscription = subscriptionRepository.findByTopic(subscription.getTopic());
+
         if (optionalSubscription.isPresent()) {
             throw HttpError.badRequest(String.format("Topic = %s already register in broker.", subscription.getTopic()));
         }
@@ -28,7 +29,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public void delete(String id) {
-        Subscription subscription = this.getById(id);
+        var subscription = this.getById(id);
         subscriptionRepository.delete(subscription);
     }
 

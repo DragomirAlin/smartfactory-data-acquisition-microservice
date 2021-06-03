@@ -50,7 +50,7 @@ public class SubscribeServiceImpl implements SubscribeService {
             throw HttpError.badRequest(String.format("It is not possible to subscribe to %s topic.", NUMBER_SIGN));
         }
 
-        Subscription subscription = subscriptionService.create(Subscription.builder()
+        var subscription = subscriptionService.create(Subscription.builder()
                 .topic(topic)
                 .userId(userId)
                 .build());

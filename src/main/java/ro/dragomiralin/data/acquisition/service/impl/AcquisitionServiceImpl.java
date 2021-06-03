@@ -24,8 +24,8 @@ public class AcquisitionServiceImpl implements AcquisitionService {
     @Override
     public void insert(String topic, MqttMessage message) {
         try {
-            Payload payload = objectMapper.readValue(message.getPayload(), Payload.class);
-            Data data = dataRepository.save(Data.builder()
+            var payload = objectMapper.readValue(message.getPayload(), Payload.class);
+            var data = dataRepository.save(Data.builder()
                     .topic(topic)
                     .payload(payload.getPayload())
                     .metadata(payload.getMetadata())

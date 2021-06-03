@@ -2,6 +2,7 @@ package ro.dragomiralin.data.acquisition.configuration;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.BooleanUtils;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
@@ -26,7 +27,7 @@ public class MQTT {
                 instance = new MqttClient(mqttServerAddress, mqttPublisherId);
             }
 
-            if (!instance.isConnected()) {
+            if (BooleanUtils.isFalse(instance.isConnected())) {
                 instance.connect(getOption());
             }
         } catch (MqttException e) {
