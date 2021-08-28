@@ -24,7 +24,10 @@ eureka:
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://discUser:discPassword@localhost:8761/eureka
+      defaultZone: http://discUser:discPassword@192.168.1.5:8761/eureka
+
+
+    enabled: false
 mqtt:
   publisher-id: spring-server
   server: tcp://localhost:1883
