@@ -5,8 +5,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuerUri: http://keycloak:8083/auth/realms/smartfactory
-          jwkSetUri: http://keycloak:8083/auth/realms/smartfactory/protocol/openid-connect/certs
+          issuerUri: http://192.168.1.4:8083/auth/realms/smartfactory
+          jwkSetUri: http://192.168.1.4:8083/auth/realms/smartfactory/protocol/openid-connect/certs
   data:
     mongodb:
       database: acquisition
