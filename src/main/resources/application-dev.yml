@@ -1,6 +1,6 @@
 spring:
   application:
-    name: acquisition-data-mqtt-service
+    name: acquisition
   security:
     oauth2:
       resourceserver:
