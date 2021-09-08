@@ -1,6 +1,6 @@
 spring:
   application:
-    name: acquisition
+    name: acquisition-service
   security:
     oauth2:
       resourceserver:
