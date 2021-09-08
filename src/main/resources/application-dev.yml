@@ -1,12 +1,18 @@
 spring:
   application:
-    name: acquisition
+    name: acquisition-service
   security:
     oauth2:
       resourceserver:
         jwt:
           issuerUri: http://192.168.1.4:8083/auth/realms/smartfactory
           jwkSetUri: http://192.168.1.4:8083/auth/realms/smartfactory/protocol/openid-connect/certs
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config
+      uri: config:8888
   data:
     mongodb:
       database: acquisition
