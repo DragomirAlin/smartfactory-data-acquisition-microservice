@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import ro.dragomiralin.data.acquisition.common.Data;
 import ro.dragomiralin.data.acquisition.model.Message;
+import ro.dragomiralin.data.acquisition.model.Pagination;
 import ro.dragomiralin.data.acquisition.service.AcquisitionService;
 import ro.dragomiralin.data.acquisition.service.PublishService;
 import ro.dragomiralin.data.acquisition.service.SubscribeService;
@@ -26,33 +27,44 @@ public class AcquisitionController {
     private final AcquisitionService acquisitionService;
 
     @GetMapping
-    public String test(@AuthenticationPrincipal Jwt principal) {
-        return String.format("Endpoint Test from mqtt-microservice. User=%s", principal.getClaimAsString("preferred_username"));
+    public ResponseEntity<String> test(@AuthenticationPrincipal Jwt principal) {
+        return new ResponseEntity<>(String.format("Endpoint Test from mqtt-microservice. User=%s", principal.getClaimAsString("preferred_username")),
+                HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/publish")
-    public void publish(@AuthenticationPrincipal Jwt principal, @RequestBody Message message) {
+    public ResponseEntity<Void> publish(@AuthenticationPrincipal Jwt principal, @RequestBody Message message) {
         publishService.publish(message);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/unsubscribe")
-    public void unsubscribe(@AuthenticationPrincipal Jwt principal, @RequestParam String topic) {
+    public ResponseEntity<Void> unsubscribe(@AuthenticationPrincipal Jwt principal, @RequestParam String topic) {
         subscribeService.unsubscribe(topic);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/subscribe")
-    public void subscribe(@AuthenticationPrincipal Jwt principal, @RequestParam String topic) {
+    public ResponseEntity<Void> subscribe(@AuthenticationPrincipal Jwt principal, @RequestParam String topic) {
         String userId = principal.getClaimAsString("sub");
         subscribeService.subscribe(userId, topic);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/data")
     public ResponseEntity<Map<String, Object>> allData(@AuthenticationPrincipal Jwt principal, @RequestParam int page, @RequestParam int size) {
-        return new ResponseEntity<>(acquisitionService.getAllData(page, size), HttpStatus.OK);
+        return new ResponseEntity<>(acquisitionService.getAllData(Pagination.builder()
+                .page(page)
+                .size(size)
+                .build()), HttpStatus.OK);
     }
 
     @GetMapping("/data/{topic}")
-    public List<Data> getDataByTopic(@AuthenticationPrincipal Jwt principal, @PathVariable String topic) {
-        return acquisitionService.getDataByTopic(topic);
+    public ResponseEntity<Map<String, Object>> getDataByTopic(@AuthenticationPrincipal Jwt principal, @PathVariable String topic, @RequestParam int page, @RequestParam int size) {
+        return new ResponseEntity<>(acquisitionService.getDataByTopic(topic,
+                Pagination.builder()
+                        .page(page)
+                        .size(size)
+                        .build()), HttpStatus.OK);
     }
 }

@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface DataRepository extends MongoRepository<Data, String> {
-    List<Data> findAllByTopic(String topic);
-//    Page<Data> findAll(Pageable pageable);
+    Page<Data> findAllByTopic(String topic, Pageable pageable);
+    Page<Data> findAll(Pageable pageable);
 }

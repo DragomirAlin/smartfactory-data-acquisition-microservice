@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ro.dragomiralin.data.acquisition.common.Data;
 import ro.dragomiralin.data.acquisition.common.Payload;
+import ro.dragomiralin.data.acquisition.model.Pagination;
 import ro.dragomiralin.data.acquisition.repository.DataRepository;
 import ro.dragomiralin.data.acquisition.service.AcquisitionService;
 import ro.dragomiralin.data.acquisition.service.SenderService;
@@ -41,21 +42,25 @@ public class AcquisitionServiceImpl implements AcquisitionService {
     }
 
     @Override
-    public List<Data> getDataByTopic(String topic) {
+    public Map<String, Object> getDataByTopic(String topic, Pagination pagination) {
+        Pageable paging = PageRequest.of(pagination.getPage(), pagination.getSize());
+
         log.info("Get all data by topic={}.", topic);
-        return dataRepository.findAllByTopic(topic);
+        Page<Data> dataPage = dataRepository.findAllByTopic(topic, paging);
+        return this.buildPaginationResponse(dataPage);
     }
 
     @Override
-    public Map<String, Object> getAllData(int page, int size) {
+    public Map<String, Object> getAllData(Pagination pagination) {
+        Pageable paging = PageRequest.of(pagination.getPage(), pagination.getSize());
+
         log.info("Get all data from database.");
-        Pageable paging = PageRequest.of(page, size);
+        Page<Data> dataPage = dataRepository.findAll(paging);
+        return this.buildPaginationResponse(dataPage);
+    }
 
-        Page<Data> pageData = dataRepository.findAll(paging);
-
-
-
-        return Map.of("data", pageData.getContent(), "currentPage", pageData.getNumber(),
-                "totalItems", pageData.getTotalElements(), "totalPages", pageData.getTotalPages());
+    private Map<String, Object> buildPaginationResponse(Page<Data> dataPage) {
+        return Map.of("data", dataPage.getContent(), "currentPage", dataPage.getNumber(),
+                "totalItems", dataPage.getTotalElements(), "totalPages", dataPage.getTotalPages());
     }
 }
