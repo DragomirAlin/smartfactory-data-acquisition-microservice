@@ -2,6 +2,8 @@ package ro.dragomiralin.data.acquisition.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import ro.dragomiralin.data.acquisition.service.PublishService;
 import ro.dragomiralin.data.acquisition.service.SubscribeService;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -44,8 +47,8 @@ public class AcquisitionController {
     }
 
     @GetMapping("/data")
-    public List<Data> allData(@AuthenticationPrincipal Jwt principal) {
-        return acquisitionService.getAll();
+    public ResponseEntity<Map<String, Object>> allData(@AuthenticationPrincipal Jwt principal, @RequestParam int page, @RequestParam int size) {
+        return new ResponseEntity<>(acquisitionService.getAllData(page, size), HttpStatus.OK);
     }
 
     @GetMapping("/data/{topic}")

@@ -14,7 +14,7 @@ import java.util.Objects;
 
 @Slf4j
 @Service
-public class MQTT {
+public class MQTTClient {
     @Value("${mqtt.publisher-id}")
     private String mqttPublisherId;
     @Value("${mqtt.server}")
@@ -33,6 +33,8 @@ public class MQTT {
         } catch (MqttException e) {
             log.error("An error occurred while return MQTT client.", e);
         }
+
+        log.info("Issued MQTT client.");
         return instance;
     }
 

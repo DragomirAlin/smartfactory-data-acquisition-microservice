@@ -4,9 +4,10 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import ro.dragomiralin.data.acquisition.common.Data;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AcquisitionService {
-    void insert(String topic, MqttMessage message);
+    void save(String topic, MqttMessage message);
     List<Data> getDataByTopic(String topic);
-    List<Data> getAll();
+    Map<String, Object> getAllData(int page, int size);
 }

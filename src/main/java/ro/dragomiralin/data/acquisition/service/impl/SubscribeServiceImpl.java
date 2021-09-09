@@ -3,7 +3,7 @@ package ro.dragomiralin.data.acquisition.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ro.dragomiralin.data.acquisition.configuration.MQTT;
+import ro.dragomiralin.data.acquisition.configuration.MQTTClient;
 import ro.dragomiralin.data.acquisition.model.Subscription;
 import ro.dragomiralin.data.acquisition.service.AcquisitionService;
 import ro.dragomiralin.data.acquisition.service.SubscribeService;
@@ -20,7 +20,7 @@ public class SubscribeServiceImpl implements SubscribeService {
     private final SubscriptionService subscriptionService;
     private final AcquisitionService acquisitionService;
     private static final String NUMBER_SIGN = "#";
-    private final MQTT mqtt;
+    private final MQTTClient mqttClient;
 
     @PostConstruct
     public void subscribeAll() {
@@ -36,7 +36,7 @@ public class SubscribeServiceImpl implements SubscribeService {
     public void unsubscribe(String topic) {
         subscriptionService.deleteByTopic(topic);
         try {
-            mqtt.getClient().subscribeWithResponse(topic);
+            mqttClient.getClient().subscribeWithResponse(topic);
             log.info("Unsubscribe to: " + topic);
         } catch (Exception e) {
             log.error("An error occurred while unsubscribing to {}", topic, e);
@@ -61,8 +61,8 @@ public class SubscribeServiceImpl implements SubscribeService {
 
     private void subscribeWithResponse(Subscription subscription) {
         try {
-            mqtt.getClient().subscribeWithResponse(subscription.getTopic(), (s, mqttMessage)
-                    -> acquisitionService.insert(subscription.getTopic(), mqttMessage));
+            mqttClient.getClient().subscribeWithResponse(subscription.getTopic(), (s, mqttMessage)
+                    -> acquisitionService.save(subscription.getTopic(), mqttMessage));
         } catch (Exception e) {
             log.error("An error occurred while subscribing to {}.", subscription.getTopic(), e);
             throw HttpError.badRequest(String.format("Subscribe failed, details=%s", e.getMessage()));
