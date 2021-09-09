@@ -11,4 +11,5 @@ public interface AcquisitionService {
     void save(String topic, MqttMessage message);
     Map<String, Object> getDataByTopic(String topic, Pagination pagination);
     Map<String, Object> getAllData(Pagination pagination);
+    List<Data> searchData(String textSearch);
 }

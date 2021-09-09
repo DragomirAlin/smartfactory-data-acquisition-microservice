@@ -67,4 +67,10 @@ public class AcquisitionController {
                         .size(size)
                         .build()), HttpStatus.OK);
     }
+
+    @PostMapping("/data/search")
+    public ResponseEntity<List<Data>> searchData(@RequestBody Map<String, Object> criteria) {
+        // return new ResponseEntity<>(acquisitionService.searchData(textSearch), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
 }

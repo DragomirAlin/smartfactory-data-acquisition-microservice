@@ -7,6 +7,10 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.TextIndexDefinition;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Service;
 import ro.dragomiralin.data.acquisition.common.Data;
 import ro.dragomiralin.data.acquisition.common.Payload;
@@ -15,6 +19,7 @@ import ro.dragomiralin.data.acquisition.repository.DataRepository;
 import ro.dragomiralin.data.acquisition.service.AcquisitionService;
 import ro.dragomiralin.data.acquisition.service.SenderService;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +30,21 @@ public class AcquisitionServiceImpl implements AcquisitionService {
     private final DataRepository dataRepository;
     private final ObjectMapper objectMapper;
     private final SenderService senderService;
+    private final MongoTemplate mongoTemplate;
+
+    @PostConstruct
+    public void checkIndexes() {
+        try {
+            TextIndexDefinition textIndex = new TextIndexDefinition.TextIndexDefinitionBuilder()
+                    .onField("payload")
+                    .build();
+
+            mongoTemplate.indexOps(Data.class).ensureIndex(textIndex);
+            log.info("The Data fields was indexed.");
+        } catch (Exception e) {
+            log.error("Could not set Data indexes.", e);
+        }
+    }
 
     @Override
     public void save(String topic, MqttMessage message) {
@@ -57,6 +77,13 @@ public class AcquisitionServiceImpl implements AcquisitionService {
         log.info("Get all data from database.");
         Page<Data> dataPage = dataRepository.findAll(paging);
         return this.buildPaginationResponse(dataPage);
+    }
+
+    @Override
+    public List<Data> searchData(String textSearch) {
+        //TODO: add dynamic search with Map<String, Object>
+        TextCriteria criteria = TextCriteria.forDefaultLanguage().matching(textSearch);
+        return mongoTemplate.find(Query.query(criteria), Data.class);
     }
 
     private Map<String, Object> buildPaginationResponse(Page<Data> dataPage) {
