@@ -2,6 +2,7 @@ package ro.dragomiralin.data.acquisition.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -54,23 +55,17 @@ public class AcquisitionController {
 
     @GetMapping("/data")
     public ResponseEntity<PaginationResponse> allData(@AuthenticationPrincipal Jwt principal, @RequestParam int page, @RequestParam int size) {
-        return new ResponseEntity<>(acquisitionService.getAllData(Pagination.builder()
-                .page(page)
-                .size(size)
-                .build()), HttpStatus.OK);
+        return new ResponseEntity<>(acquisitionService.getAllData(PageRequest.of(page, size)), HttpStatus.OK);
     }
 
     @GetMapping("/data/{topic}")
     public ResponseEntity<PaginationResponse> getDataByTopic(@AuthenticationPrincipal Jwt principal, @PathVariable String topic, @RequestParam int page, @RequestParam int size) {
         return new ResponseEntity<>(acquisitionService.getDataByTopic(topic,
-                Pagination.builder()
-                        .page(page)
-                        .size(size)
-                        .build()), HttpStatus.OK);
+                PageRequest.of(page, size)), HttpStatus.OK);
     }
 
     @PostMapping("/data/search")
-    public ResponseEntity<List<Data>> searchData(@RequestParam String textSearch) {
-         return new ResponseEntity<>(acquisitionService.searchData(textSearch), HttpStatus.OK);
+    public ResponseEntity<PaginationResponse> searchData(@RequestBody Map<String, Object> params, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "25") int size) {
+         return new ResponseEntity<>(acquisitionService.searchData(params, PageRequest.of(page, size)), HttpStatus.OK);
     }
 }
