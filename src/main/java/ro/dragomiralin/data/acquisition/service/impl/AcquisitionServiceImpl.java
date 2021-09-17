@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import ro.dragomiralin.data.acquisition.common.Data;
 import ro.dragomiralin.data.acquisition.common.Payload;
 import ro.dragomiralin.data.acquisition.model.Pagination;
+import ro.dragomiralin.data.acquisition.model.PaginationResponse;
 import ro.dragomiralin.data.acquisition.repository.DataRepository;
 import ro.dragomiralin.data.acquisition.service.AcquisitionService;
 import ro.dragomiralin.data.acquisition.service.SenderService;
@@ -62,21 +63,33 @@ public class AcquisitionServiceImpl implements AcquisitionService {
     }
 
     @Override
-    public Map<String, Object> getDataByTopic(String topic, Pagination pagination) {
+    public PaginationResponse getDataByTopic(String topic, Pagination pagination) {
         Pageable paging = PageRequest.of(pagination.getPage(), pagination.getSize());
 
         log.info("Get all data by topic={}.", topic);
         Page<Data> dataPage = dataRepository.findAllByTopic(topic, paging);
-        return this.buildPaginationResponse(dataPage);
+        return PaginationResponse.builder()
+                .data(dataPage.getContent())
+                .currentPage(dataPage.getNumber())
+                .totalItems(dataPage.getTotalElements())
+                .totalPages(dataPage.getTotalPages())
+                .pageSize(dataPage.getSize())
+                .build();
     }
 
     @Override
-    public Map<String, Object> getAllData(Pagination pagination) {
+    public PaginationResponse getAllData(Pagination pagination) {
         Pageable paging = PageRequest.of(pagination.getPage(), pagination.getSize());
 
         log.info("Get all data from database.");
         Page<Data> dataPage = dataRepository.findAll(paging);
-        return this.buildPaginationResponse(dataPage);
+        return PaginationResponse.builder()
+                .data(dataPage.getContent())
+                .currentPage(dataPage.getNumber())
+                .totalItems(dataPage.getTotalElements())
+                .totalPages(dataPage.getTotalPages())
+                .pageSize(dataPage.getSize())
+                .build();
     }
 
     @Override

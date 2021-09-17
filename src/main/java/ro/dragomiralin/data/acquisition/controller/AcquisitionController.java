@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.dragomiralin.data.acquisition.common.Data;
 import ro.dragomiralin.data.acquisition.model.Message;
 import ro.dragomiralin.data.acquisition.model.Pagination;
+import ro.dragomiralin.data.acquisition.model.PaginationResponse;
 import ro.dragomiralin.data.acquisition.service.AcquisitionService;
 import ro.dragomiralin.data.acquisition.service.PublishService;
 import ro.dragomiralin.data.acquisition.service.SubscribeService;
@@ -52,7 +53,7 @@ public class AcquisitionController {
     }
 
     @GetMapping("/data")
-    public ResponseEntity<Map<String, Object>> allData(@AuthenticationPrincipal Jwt principal, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<PaginationResponse> allData(@AuthenticationPrincipal Jwt principal, @RequestParam int page, @RequestParam int size) {
         return new ResponseEntity<>(acquisitionService.getAllData(Pagination.builder()
                 .page(page)
                 .size(size)
@@ -60,7 +61,7 @@ public class AcquisitionController {
     }
 
     @GetMapping("/data/{topic}")
-    public ResponseEntity<Map<String, Object>> getDataByTopic(@AuthenticationPrincipal Jwt principal, @PathVariable String topic, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<PaginationResponse> getDataByTopic(@AuthenticationPrincipal Jwt principal, @PathVariable String topic, @RequestParam int page, @RequestParam int size) {
         return new ResponseEntity<>(acquisitionService.getDataByTopic(topic,
                 Pagination.builder()
                         .page(page)
@@ -69,8 +70,7 @@ public class AcquisitionController {
     }
 
     @PostMapping("/data/search")
-    public ResponseEntity<List<Data>> searchData(@RequestBody Map<String, Object> criteria) {
-        // return new ResponseEntity<>(acquisitionService.searchData(textSearch), HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    public ResponseEntity<List<Data>> searchData(@RequestParam String textSearch) {
+         return new ResponseEntity<>(acquisitionService.searchData(textSearch), HttpStatus.OK);
     }
 }
