@@ -8,15 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-import ro.dragomiralin.data.acquisition.common.Data;
-import ro.dragomiralin.data.acquisition.model.Message;
-import ro.dragomiralin.data.acquisition.model.Pagination;
-import ro.dragomiralin.data.acquisition.model.PaginationResponse;
-import ro.dragomiralin.data.acquisition.service.AcquisitionService;
-import ro.dragomiralin.data.acquisition.service.PublishService;
-import ro.dragomiralin.data.acquisition.service.SubscribeService;
+import ro.dragomiralin.data.acquisition.mqtt.AcquisitionService;
+import ro.dragomiralin.data.acquisition.mqtt.PublishService;
+import ro.dragomiralin.data.acquisition.mqtt.TopicSubscribeService;
+import ro.dragomiralin.data.acquisition.mqtt.model.Message;
+import ro.dragomiralin.data.acquisition.mqtt.model.PaginationResponse;
 
-import java.util.List;
+
 import java.util.Map;
 
 @Slf4j
@@ -25,7 +23,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AcquisitionController {
     private final PublishService publishService;
-    private final SubscribeService subscribeService;
+    private final TopicSubscribeService topicSubscribeService;
     private final AcquisitionService acquisitionService;
 
     @GetMapping
@@ -42,14 +40,14 @@ public class AcquisitionController {
 
     @DeleteMapping("/unsubscribe")
     public ResponseEntity<Void> unsubscribe(@AuthenticationPrincipal Jwt principal, @RequestParam String topic) {
-        subscribeService.unsubscribe(topic);
+        topicSubscribeService.unsubscribe(topic);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/subscribe")
     public ResponseEntity<Void> subscribe(@AuthenticationPrincipal Jwt principal, @RequestParam String topic) {
         String userId = principal.getClaimAsString("sub");
-        subscribeService.subscribe(userId, topic);
+        topicSubscribeService.subscribe(userId, topic);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
