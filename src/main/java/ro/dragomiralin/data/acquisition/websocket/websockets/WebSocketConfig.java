@@ -1,4 +1,4 @@
-package ro.dragomiralin.data.acquisition.configuration;
+package ro.dragomiralin.data.acquisition.websocket.websockets;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -11,16 +11,17 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/ws");
-        config.setApplicationDestinationPrefixes("/sfy");
+    public void configureMessageBroker(final MessageBrokerRegistry config) {
+        config.enableSimpleBroker("/topic");
+        config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry
-                .addEndpoint("/sfy-stomp-endpoint")
-                .setAllowedOrigins("http://localhost:4200")
-                .withSockJS();
+    public void registerStompEndpoints(final StompEndpointRegistry registry) {
+        registry.addEndpoint("/chat");
+        registry.addEndpoint("/chat").withSockJS();
+        registry.addEndpoint("/chatwithbots");
+        registry.addEndpoint("/chatwithbots").withSockJS();
     }
+
 }
