@@ -11,16 +11,20 @@ import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.support.PageableExecutionUtils;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ro.dragomiralin.data.acquisition.common.Data;
+import ro.dragomiralin.data.acquisition.common.Metadata;
 import ro.dragomiralin.data.acquisition.common.Payload;
 import ro.dragomiralin.data.acquisition.mqtt.model.PaginationResponse;
 import ro.dragomiralin.data.acquisition.mqtt.repository.DataRepository;
 import ro.dragomiralin.data.acquisition.mqtt.AcquisitionService;
 import ro.dragomiralin.data.acquisition.rabbitmq.RabbitMQSenderService;
+import ro.dragomiralin.data.acquisition.websocket.WebSocketService;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +35,7 @@ public class AcquisitionServiceImpl implements AcquisitionService {
     private final DataRepository dataRepository;
     private final ObjectMapper objectMapper;
     private final RabbitMQSenderService senderService;
+    private final WebSocketService webSocketService;
     private final MongoTemplate mongoTemplate;
 
     @PostConstruct
@@ -60,6 +65,18 @@ public class AcquisitionServiceImpl implements AcquisitionService {
         } catch (Exception e) {
             log.error("An error occurred while inserting data from broker.", e);
         }
+    }
+
+    @Scheduled(fixedDelay = 3000)
+    public void test() {
+        log.info("test");
+        webSocketService.notify(Data.builder()
+                .topic("test")
+                        .metadata(Metadata.builder()
+                                .build())
+                .id("test-id")
+                .arriveAt(new Date())
+                .build());
     }
 
     @Override
