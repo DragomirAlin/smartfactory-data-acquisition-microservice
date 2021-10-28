@@ -20,7 +20,6 @@ import ro.dragomiralin.data.acquisition.mqtt.model.PaginationResponse;
 import ro.dragomiralin.data.acquisition.mqtt.repository.DataRepository;
 import ro.dragomiralin.data.acquisition.mqtt.AcquisitionService;
 import ro.dragomiralin.data.acquisition.rabbitmq.RabbitMQSenderService;
-import ro.dragomiralin.data.acquisition.websocket.WebSocketService;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -35,7 +34,6 @@ public class AcquisitionServiceImpl implements AcquisitionService {
     private final DataRepository dataRepository;
     private final ObjectMapper objectMapper;
     private final RabbitMQSenderService senderService;
-    private final WebSocketService webSocketService;
     private final MongoTemplate mongoTemplate;
 
     @PostConstruct
@@ -70,10 +68,10 @@ public class AcquisitionServiceImpl implements AcquisitionService {
     @Scheduled(fixedDelay = 3000)
     public void test() {
         log.info("test");
-        webSocketService.notify(Data.builder()
+        senderService.send(Data.builder()
                 .topic("test")
-                        .metadata(Metadata.builder()
-                                .build())
+                .metadata(Metadata.builder()
+                        .build())
                 .id("test-id")
                 .arriveAt(new Date())
                 .build());

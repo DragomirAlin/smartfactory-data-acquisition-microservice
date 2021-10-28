@@ -13,26 +13,36 @@ import org.springframework.stereotype.Service;
 @Service
 @Configuration
 public class RabbitMQConfiguration {
-    @Value("${smartfactory.rabbitmq.queue}")
-    private String queueName;
-    @Value("${smartfactory.rabbitmq.exchange}")
-    private String exchange;
-    @Value("${smartfactory.rabbitmq.routingkey}")
-    private String routingkey;
+    @Value("${smartfactory.rabbitmq.mqtt.exchange}")
+    private String mqttExchange;
+    @Value("${smartfactory.rabbitmq.mqtt.subscription.queue}")
+    private String subscriptionQueue;
+    @Value("${smartfactory.rabbitmq.mqtt.subscription.routingkey}")
+    private String gatewayQueue;
 
     @Bean
-    Queue queue() {
-        return new Queue(queueName, false);
+    Queue subscriptionQueue() {
+        return new Queue(subscriptionQueue, false);
     }
 
     @Bean
-    DirectExchange exchange() {
-        return new DirectExchange(exchange);
+    Queue gatewayQueue() {
+        return new Queue(gatewayQueue, false);
     }
 
     @Bean
-    Binding binding(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(routingkey);
+    public FanoutExchange fanoutExchange() {
+        return new FanoutExchange(mqttExchange);
+    }
+
+    @Bean
+    Binding bindingSubscription(Queue subscriptionQueue, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(subscriptionQueue).to(fanoutExchange);
+    }
+
+    @Bean
+    Binding bindingGateway(Queue gatewayQueue, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(gatewayQueue).to(fanoutExchange);
     }
 
     @Bean

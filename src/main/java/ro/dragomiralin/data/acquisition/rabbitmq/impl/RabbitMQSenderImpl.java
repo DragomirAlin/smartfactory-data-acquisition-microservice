@@ -12,13 +12,11 @@ import ro.dragomiralin.data.acquisition.rabbitmq.RabbitMQSenderService;
 @RequiredArgsConstructor
 public class RabbitMQSenderImpl implements RabbitMQSenderService {
     private final RabbitTemplate rabbitTemplate;
-    @Value("${smartfactory.rabbitmq.exchange}")
-    private String exchange;
-    @Value("${smartfactory.rabbitmq.routingkey}")
-    private String routingkey;
+    @Value("${smartfactory.rabbitmq.mqtt.exchange}")
+    private String mqttExchange;
 
     @Override
     public void send(Object data) {
-        rabbitTemplate.convertAndSend(exchange, routingkey, data);
+        rabbitTemplate.convertAndSend(mqttExchange, "", data);
     }
 }
