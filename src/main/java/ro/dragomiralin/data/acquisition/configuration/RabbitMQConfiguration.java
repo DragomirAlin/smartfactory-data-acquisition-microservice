@@ -17,7 +17,7 @@ public class RabbitMQConfiguration {
     private String mqttExchange;
     @Value("${smartfactory.rabbitmq.mqtt.subscription.queue}")
     private String subscriptionQueue;
-    @Value("${smartfactory.rabbitmq.mqtt.subscription.routingkey}")
+    @Value("${smartfactory.rabbitmq.mqtt.gateway.queue}")
     private String gatewayQueue;
 
     @Bean

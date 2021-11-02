@@ -25,8 +25,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://discUser:discPassword@192.168.1.5:8761/eureka
-
-
     enabled: false
 mqtt:
   publisher-id: spring-server
