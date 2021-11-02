@@ -36,9 +36,12 @@ mqtt:
   server: tcp://mqtt:1883
 smartfactory:
   rabbitmq:
-    exchange: exchange.mqtt
-    queue: queue.mqtt
-    routingkey: routingkey.mqtt
+    mqtt:
+      exchange: mqtt_events
+      subscription:
+        queue: mqtt_subscription_queue
+      gateway:
+        queue: mqtt_gateway_queue
 management:
   endpoints:
     web:
