@@ -7,11 +7,6 @@ spring:
         jwt:
           issuerUri: http://localhost:8083/auth/realms/baeldung
           jwkSetUri: http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/certs
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: smartfactory
   rabbitmq:
     host: localhost
     port: 5672
