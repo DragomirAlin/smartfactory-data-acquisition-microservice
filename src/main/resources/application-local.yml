@@ -25,12 +25,6 @@ spring:
     password: admin
 server:
   port: 8002
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    serviceUrl:
-      defaultZone: http://discUser:discPassword@192.168.1.5:8761/eureka
 mqtt:
   publisher-id: spring-server
   server: tcp://192.168.1.5:1883
