@@ -65,17 +65,17 @@ public class AcquisitionServiceImpl implements AcquisitionService {
         }
     }
 
-    @Scheduled(fixedDelay = 3000)
-    public void test() {
-        log.info("test");
-        senderService.send(Data.builder()
-                .topic("test")
-                .metadata(Metadata.builder()
-                        .build())
-                .id("test-id")
-                .arriveAt(new Date())
-                .build());
-    }
+//    @Scheduled(fixedDelay = 3000)
+//    public void test() {
+//        log.info("test");
+//        senderService.send(Data.builder()
+//                .topic("test")
+//                .metadata(Metadata.builder()
+//                        .build())
+//                .id("test-id")
+//                .arriveAt(new Date())
+//                .build());
+//    }
 
     @Override
     public PaginationResponse getDataByTopic(String topic, PageRequest pageRequest) {
