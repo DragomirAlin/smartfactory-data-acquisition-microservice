@@ -1,6 +1,5 @@
 package ro.dragomiralin.data.acquisition.security;
 
-import feign.RequestInterceptor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,12 +34,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return jwtDecoder;
     }
 
-    @Bean
-    public RequestInterceptor authRequestInterceptor() {
-        return requestTemplate -> {
-            var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            requestTemplate.header("Authorization", String.format("Bearer %s", jwt.getTokenValue()));
-        };
-    }
 }
 
