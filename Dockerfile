@@ -1,7 +1,7 @@
 FROM openjdk:latest
  
 COPY target/*.jar /srv/
-COPY src/main/resources/application-dev.yml /srv/config/
+COPY src/main/resources/application.yml /srv/config/
 
 EXPOSE 8002
 
