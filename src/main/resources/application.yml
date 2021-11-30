@@ -17,18 +17,18 @@ spring:
   data:
     mongodb:
       database: acquisition
-      host: mongo
-      port: 27017
+      host: ${MONGO_HOST}
+      port: ${MONGO_PORT}
   rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: admin
-    password: admin
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASS}
 server:
   port: 8002
 mqtt:
   publisher-id: spring-server
-  server: tcp://mqtt:1883
+  server: tcp://${MQTT_HOST}:${MQTT_PORT}
 smartfactory:
   rabbitmq:
     mqtt:
