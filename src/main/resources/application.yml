@@ -21,6 +21,7 @@ spring:
       port: ${MONGO_PORT}
       username: ${MONGO_USER}
       password: ${MONGO_PASSWORD}
+      authentication-database: admin
   rabbitmq:
     host: ${RABBITMQ_HOST}
     port: ${RABBITMQ_PORT}
