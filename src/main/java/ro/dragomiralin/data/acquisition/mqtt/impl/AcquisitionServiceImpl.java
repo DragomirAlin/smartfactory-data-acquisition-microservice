@@ -36,19 +36,19 @@ public class AcquisitionServiceImpl implements AcquisitionService {
     private final RabbitMQSenderService senderService;
     private final MongoTemplate mongoTemplate;
 
-    @PostConstruct
-    public void checkIndexes() {
-        try {
-            TextIndexDefinition textIndex = new TextIndexDefinition.TextIndexDefinitionBuilder()
-                    .onField("payload")
-                    .build();
-
-            mongoTemplate.indexOps(Data.class).ensureIndex(textIndex);
-            log.info("The Data fields was indexed.");
-        } catch (Exception e) {
-            log.error("Could not set Data indexes.", e);
-        }
-    }
+//    @PostConstruct
+//    public void checkIndexes() {
+//        try {
+//            TextIndexDefinition textIndex = new TextIndexDefinition.TextIndexDefinitionBuilder()
+//                    .onField("payload")
+//                    .build();
+//
+//            mongoTemplate.indexOps(Data.class).ensureIndex(textIndex);
+//            log.info("The Data fields was indexed.");
+//        } catch (Exception e) {
+//            log.error("Could not set Data indexes.", e);
+//        }
+//    }
 
     @Override
     public void save(String topic, MqttMessage message) {
