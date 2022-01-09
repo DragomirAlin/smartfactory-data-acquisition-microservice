@@ -52,12 +52,12 @@ public class AcquisitionController {
     }
 
     @GetMapping("/data")
-    public ResponseEntity<PaginationResponse> allData(@AuthenticationPrincipal Jwt principal, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<PaginationResponse> allData(@AuthenticationPrincipal Jwt principal, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "25") int size) {
         return new ResponseEntity<>(acquisitionService.getAllData(PageRequest.of(page, size)), HttpStatus.OK);
     }
 
     @GetMapping("/data/{topic}")
-    public ResponseEntity<PaginationResponse> getDataByTopic(@AuthenticationPrincipal Jwt principal, @PathVariable String topic, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<PaginationResponse> getDataByTopic(@AuthenticationPrincipal Jwt principal, @PathVariable String topic, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "25") int size) {
         return new ResponseEntity<>(acquisitionService.getDataByTopic(topic,
                 PageRequest.of(page, size)), HttpStatus.OK);
     }
