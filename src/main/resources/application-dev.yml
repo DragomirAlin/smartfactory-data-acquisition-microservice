@@ -5,8 +5,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuerUri: http://192.168.49.2:8083/auth/realms/smartfactory
-          jwkSetUri: http://192.168.49.2:8083/auth/realms/smartfactory/protocol/openid-connect/certs
+          issuerUri: http://192.168.49.2/auth/realms/smartfactory
+          jwkSetUri: http://192.168.49.2/auth/realms/smartfactory/protocol/openid-connect/certs
   cloud:
     loadbalancer:
       ribbon:
