@@ -2,7 +2,11 @@ name: Data Acquisition CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - 'releases/**'
+    tags:
+      - '*'
   pull_request:
     branches: [ main ]
 
