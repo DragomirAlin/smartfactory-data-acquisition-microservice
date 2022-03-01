@@ -14,7 +14,6 @@ import ro.dragomiralin.data.acquisition.mqtt.TopicSubscribeService;
 import ro.dragomiralin.data.acquisition.mqtt.model.Message;
 import ro.dragomiralin.data.acquisition.mqtt.model.PaginationResponse;
 
-
 import java.util.Map;
 
 @Slf4j
