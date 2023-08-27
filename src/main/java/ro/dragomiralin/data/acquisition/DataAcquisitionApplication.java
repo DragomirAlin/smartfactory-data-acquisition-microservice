@@ -8,10 +8,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnableDiscoveryClient
 @SpringBootApplication
-public class Application {
+public class DataAcquisitionApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(DataAcquisitionApplication.class, args);
 	}
 
 }
